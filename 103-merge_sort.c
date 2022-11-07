@@ -12,10 +12,10 @@ void merge(int *parent, int *copy, size_t start, size_t mid, size_t end)
 	size_t j, k;
 	size_t i = 0;
 
-	printf("\nMerging: Left ");
+	printf("Merging...\n[Left]: ");
 	print_array(parent + start, mid - start);
 
-	printf("Merging: right ");
+	printf("[right]: ");
 	print_array(parent + mid, end - mid);
 
 	j = start, k = mid;
@@ -36,7 +36,7 @@ void merge(int *parent, int *copy, size_t start, size_t mid, size_t end)
 		copy[i++] = parent[k];
 	for (i = start, k = 0; i < end; i++)
 		parent[i] = copy[k++];
-	printf("Done!\n");
+	printf("[Done]: ");
 	print_array(parent + start, end - start);
 }
 /**
@@ -64,7 +64,10 @@ void divide_and_merge(int *array, int *copy, size_t start, size_t end)
  */
 void merge_sort(int *array, size_t size)
 {
-	int *copy = malloc(sizeof(int) * size);
+	int *copy;
+	if (!array || size <= 1)
+		return;
+	copy = malloc(sizeof(int) * size);
 
 	if (copy)
 	{
