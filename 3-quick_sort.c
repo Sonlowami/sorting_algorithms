@@ -1,5 +1,19 @@
 #include "sort.h"
 /**
+ * swap - swap two elements in an array
+ * @array: the array to swap
+ * @now: the position of one number in the array
+ * @then: position of the second number in the array
+ */
+void swap(int *array, size_t now, size_t then)
+{
+	int tmp;
+	
+	tmp = array[now];
+	array[now] = array[then];
+	array[then] = tmp;
+}
+/**
  * partition - sort the pivot to it's appropriate place in the array
  * @array: the array to use
  * @start: the index to begin
@@ -13,25 +27,24 @@
  */
 size_t partition(int *array, size_t start, size_t end, size_t size)
 {
-	size_t j;
+	size_t j, i;
 	int pivot = array[end];
-	int tmp, i;
 
 	for (j = start, i = start - 1; j < end; j++)
 	{
 		if (array[j] <= pivot)
 		{
 			i++;
-			tmp = array[i];
-			array[i] = array[j];
-			array[j] = tmp;
+			swap(array, j, i);
 			print_array(array, size);
 		}
 	}
-	tmp = array[++i];
-	array[i] = array[end];
-	array[end] = tmp;
-	return (i);
+	if (i != end)
+	{
+		swap(array, i + 1, end);
+		print_array(array, size);
+	}
+	return (i + 1);
 }
 /**
  * recurse_sort - execute for quick_sort
@@ -44,10 +57,10 @@ void recurse_sort(int *array, size_t start, size_t end, size_t size)
 {
 	size_t pivot;
 
-	if (end == start)
+	if (end <= start)
 		return;
 	pivot = partition(array, start, end - 1, size);
-	recurse_sort(array, 0, pivot, size);
+	recurse_sort(array, start, pivot, size);
 	recurse_sort(array, pivot + 1, end, size);
 }
 /**
